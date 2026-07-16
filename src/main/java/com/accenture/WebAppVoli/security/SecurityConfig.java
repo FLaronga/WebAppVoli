@@ -52,6 +52,9 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         .requestMatchers(HttpMethod.GET, "/voli/**")
             .hasAnyRole("USER", "ADMIN")
 
+        .requestMatchers(HttpMethod.POST, "/prenotazioni/**")
+            .hasAnyRole("USER", "ADMIN")
+
         // Inserimento
         .requestMatchers(HttpMethod.POST, "/voli")
             .hasRole("ADMIN")
