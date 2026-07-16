@@ -1,13 +1,14 @@
 package com.accenture.WebAppVoli.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.accenture.WebAppVoli.dto.LoginDto;
+import com.accenture.WebAppVoli.exception.NotFoundException;
 import com.accenture.WebAppVoli.model.User;
 import com.accenture.WebAppVoli.repository.UserRepository;
+import com.accenture.WebAppVoli.security.JwtTool;
 
 @Service
 public class AuthService {
@@ -16,7 +17,7 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtTool JwtTool;
+    private JwtTool jwtTool;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -29,7 +30,7 @@ public class AuthService {
 
     public String login(LoginDto loginDto) throws NotFoundException {
         User user = userRepository.findByUsername(loginDto.getUsername()).
-                orElseThrow(() -> new com.accenture.WebAppVoli.exception.NotFoundException("Utente con questo username/password non trovato"));
+                orElseThrow(() -> new NotFoundException("Utente con questo username/password non trovato"));
 
         System.out.println("Username: " + loginDto.getUsername());
         System.out.println("Password DB: " + user.getPassword());
@@ -38,7 +39,7 @@ public class AuthService {
             return jwtTool.createToken(user);
         }
         else{
-            throw new com.accenture.WebAppVoli.exception.NotFoundException("Utente con questo username/password non trovato");
+            throw new NotFoundException("Utente con questo username/password non trovato");
         }
     }
 }
