@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlyEasy</title>
     
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/style_Header_Footer.css">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
     <footer>
         <div class="container">
             <div id="d1">
-                <strong><p class="footer">Ricevi offerte esclusine</p></strong>
+                <strong><p class="footer">Ricevi offerte esclusive</p></strong>
                 <p class="footer">Prenota le tue vacanze in pochi click!</p>
             </div>
             <div id="d2">
@@ -45,14 +45,19 @@
 
     </footer>
 
-<script>
-  fetch('iconaLogin.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('icona-login-esterna').innerHTML = data;
-    })
-    .catch(error => console.error('Errore nel caricamento dell\'icona:', error));
-</script>
+  
+<div id="sfondoPopup" class="schermata-scura">
+
+  <div class="finestra-popup">
+    
+    <span class="pulsante-chiudi" id="pulsanteChiudiPopup">&times;</span>
+    
+    <h2>Benvenuto su FlyEasy!</h2>
+    <p>Per usufruire di tutti i nostri servizi di volo, effettua il login o registrati in pochi passaggi, facendo click sull'icona in'alto a destra.</p>
+
+</div>
+
+<script src="../javascript/animazioni.js"></script>
     
 </body>
 </html>
