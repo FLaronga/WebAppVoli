@@ -26,7 +26,7 @@ public class PrenotazioneService {
     private UserRepository userRepository;
 
     @Transactional // rende l'operazione atomica
-    public Prenotazione prenota(Integer idVolo, Integer posti) {
+    public Prenotazione prenota(Integer idVolo, Integer posti, String username) {
 
         // 1) Recupero il volo
         Volo volo = voloRepository.findById(idVolo)
@@ -37,14 +37,6 @@ public class PrenotazioneService {
         if(volo.getPostiDisponibili() < posti) {
             throw new RuntimeException("Posti insufficienti");
         }
-
-
-        // 3) Recupero utente loggato
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
-
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));

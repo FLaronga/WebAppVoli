@@ -3,8 +3,11 @@ package com.accenture.WebAppVoli.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -15,12 +18,13 @@ public class VoloDto {
     private String aeroportoPartenza;
     @NotEmpty(message = "l'aeroporto di destinazione non può essere vuoto")
     private String aeroportoDestinazione;
-    @NotEmpty(message = "la data non può essere vuota")
+    @NotNull(message = "la data non può essere vuota")
     private LocalDate data;
-    @NotEmpty(message = "l'orario di parenza non può essere vuoto")
+    @NotNull(message = "l'orario di parenza non può essere vuoto")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime orarioDecollo;
-    @NotEmpty(message = "l'orario di arrivo non può essere vuoto")
+    @NotNull(message = "l'orario di arrivo non può essere vuoto")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime orarioAtterraggio;
-    @NotBlank(message = "posti non disponibili non può essere vuoto")
     private int postiDisponibili;
 }

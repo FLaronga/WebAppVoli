@@ -1,28 +1,33 @@
 package com.accenture.WebAppVoli.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accenture.WebAppVoli.model.Prenotazione;
 import com.accenture.WebAppVoli.service.PrenotazioneService;
 
 @RestController
+@RequestMapping("/voli")
 @CrossOrigin(origins = "*")
 public class PrenotazioneController {
 
     @Autowired
     private PrenotazioneService prenotazioneService;
 
-    @PostMapping("/{idVolo}")
+    @PostMapping("/{idVolo}/prenotazioni")
     public Prenotazione prenota(
             @PathVariable Integer idVolo,
-            @RequestBody Integer posti) {
+            @RequestBody Integer posti,
+            Authentication authentication) {
 
-        return prenotazioneService.prenota(idVolo, posti);
+        String username = authentication.getName(); // utente autenticato dal JWT
+        return prenotazioneService.prenota(idVolo, posti, username);
     }
 }
 

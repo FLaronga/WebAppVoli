@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,6 +19,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class JwtFilter extends OncePerRequestFilter{
 
     @Autowired
@@ -31,7 +33,7 @@ public class JwtFilter extends OncePerRequestFilter{
         3. se ha il token, viene verificato che il token sia valido. Se non è valido, eccezione
         4. se il token è valido, allora si farà accedere la richiesta ai filtri successivi
          */
-
+        System.out.println("JWT FILTER ESEGUITO");
         String authorization = request.getHeader("Authorization"); //recupero la proprietà "Authorization" tra gli header
 
         if(authorization==null || !authorization.startsWith("Bearer ")){
@@ -48,6 +50,9 @@ public class JwtFilter extends OncePerRequestFilter{
                 //recupero l'utente collegato al token usando il metodo getUserFromToken del jwtTool
                 User user = jwtTool.getUserFromToken(token);
 
+                System.out.println("Ruolo: " + user.getRole());
+                System.out.println("Authorities: " + user.getAuthorities());
+                
                 //creo un oggetto authentication inserendogli all'interno l'utente recuperato e il suo ruolo
                 Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 //aggiungo l'autenticazione con l'utente nel contesto di Spring security
