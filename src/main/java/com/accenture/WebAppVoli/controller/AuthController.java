@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accenture.WebAppVoli.dto.LoginDto;
@@ -40,7 +41,7 @@ public class AuthController {
     }
 
     @GetMapping("/auth/login")
-    public String login(@RequestBody @Validated LoginDto loginDto, BindingResult bindingResult) throws ValidationException, NotFoundException{
+    public String login(@Validated LoginDto loginDto, BindingResult bindingResult) throws ValidationException, NotFoundException{ //@RequesBody allinizio
         if(bindingResult.hasErrors()){
             throw new ValidationException(bindingResult.getAllErrors().stream().
                     map(objectError -> objectError.getDefaultMessage()).
