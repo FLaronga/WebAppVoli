@@ -197,6 +197,35 @@ footer{
 
     </header>
 
+    <h1>Inserisci Volo</h1>
+    <label>Compagnia:</label>
+    <input type="text" id="postCompagnia"><br>
+
+    <label>Aeroporto di partenza:</label>
+    <input type="text" id="postAeroportoPartenza"><br>
+
+    <label>Aeroporto di destinazione:</label>
+    <input type="text" id="postAeroportoDestinazione"><br>
+
+    <label>Data:</label>
+    <input type="date" id="postData"><br>
+
+    <label>Orario decollo:</label>
+    <input type="time" id="postOrarioDecollo"><br>
+
+    <label>Orario Atterraggio:</label>
+    <input type="time" id="postOrarioAtterraggio"><br>
+
+    <label>Posti Disponibili:</label>
+    <input type="number" id="postPostiDisponibili"><br>
+
+    <input type="button" value="Inserisci" onclick="inserisci()">
+
+<!--{
+
+    "postiDisponibili": 20
+}-->
+
     <footer>
         <div class="container">
             <div id="d1">
@@ -257,6 +286,71 @@ function chiudiFinestra() {
 function accesso(){
   window.location.href="../html/Reg_Aut.html"
 }
+
+function inserisci(){
+
+    const compagnia = document.getElementById("postCompagnia").value;
+    const aeroportoPartenza = document.getElementById("postAeroportoPartenza").value;
+    const aeroportoDestinazione = document.getElementById("postAeroportoDestinazione").value;
+    const data = document.getElementById("postData").value;
+    const orarioDecollo = document.getElementById("postOrarioDecollo").value;
+    const orarioAtterraggio = document.getElementById("postOrarioAtterraggio").value;
+    const postiDisponibili = document.getElementById("postPostiDisponibili").value;
+
+
+    fetch("http://localhost:8080/voli", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+
+        body: JSON.stringify({
+
+            compagnia: compagnia,
+            aeroportoPartenza: aeroportoPartenza,
+            aeroportoDestinazione: aeroportoDestinazione,
+            data: data,
+            orarioDecollo: orarioDecollo,
+            orarioAtterraggio: orarioAtterraggio,
+            postiDisponibili: Number(postiDisponibili)
+
+        })
+
+    })
+
+    .then(res => {
+
+        console.log("Status:", res.status);
+
+        if(!res.ok){
+            throw new Error("Errore inserimento volo");
+        }
+
+        return res.json();
+
+    })
+
+    .then(volo => {
+
+        console.log("Volo inserito:", volo);
+
+        alert("Volo inserito correttamente!");
+
+    })
+
+    .catch(error => {
+
+        console.error("Errore:", error);
+
+        alert("Inserimento fallito");
+
+    });
+
+}
+
 </script>
     
 </body>
