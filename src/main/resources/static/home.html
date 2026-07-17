@@ -76,11 +76,43 @@ function login() {
         return decodedPayload.role;
     }
 
+    function register(){
+            const nome = document.getElementById("registerNome").value
+            const cognome = document.getElementById("registerCognome").value
+            const indirizzo = document.getElementById("registerIndirizzo").value
+            const cf = document.getElementById("registerCf").value
+            const username = document.getElementById("registerUsername").value
+            const password = document.getElementById("registerPassword").value
+
+
+            fetch("http://localhost:8080/auth/register", {
+                method:"POST",
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+
+                body: JSON.stringify({
+                    "nome": nome, 
+                    "cognome": cognome, 
+                    "indirizzo": indirizzo,
+                    "cf": cf,
+                    "username": username, 
+                    "password": password, 
+                    "role": "USER"
+                })
+            })
+            .then(res=>res.json()) 
+            .then(utente=>{
+                console.log(utente);
+                alert("DONE")
+            })
+            .catch(error=>console.error("Errore nella creazione: ", error));
+    }
     </script>
 </head>
 <body>
 
-    <h1>Pagina di Login</h1>
+    <h1>Login</h1>
 
     <label>Username:</label>
     <input type="text" id="loginUsername">
@@ -90,5 +122,26 @@ function login() {
     
     <input type="button" value="Login" onclick="login()">
 
+    <h1>Registrati</h1>
+
+    <label>Nome:</label>
+    <input type="text" id="registerNome"><br>
+
+    <label>Cognome:</label>
+    <input type="text" id="registerCognome"> <br>
+
+    <label>Indirizzo:</label>
+    <input type="text" id="registerIndirizzo"> <br>
+
+    <label>Codice Fiscale:</label>
+    <input type="text" id="registerCf"> <br>
+
+    <label>Username:</label>
+    <input type="text" id="registerUsername"> <br>
+
+    <label>Password:</label>
+    <input type="text" id="registerPassword"> <br>
+
+    <input type="button" value="Registrati" onclick="register()"><br>
 </body>
 </html>
