@@ -219,7 +219,32 @@ footer{
     <label>Posti Disponibili:</label>
     <input type="number" id="postPostiDisponibili"><br>
 
-    <input type="button" value="Inserisci" onclick="inserisci()">
+    <input type="button" value="Inserisci" onclick="inserisci()"> <br>
+
+  <h1>Elenco Voli</h1>
+
+<input type="button" value="Carica voli" onclick="caricaVoli()">
+
+<br><br>
+
+<table border="1" cellpadding="8">
+    <thead>
+        <tr>
+            <th>Codice</th>
+            <th>Compagnia</th>
+            <th>Partenza</th>
+            <th>Destinazione</th>
+            <th>Data</th>
+            <th>Decollo</th>
+            <th>Atterraggio</th>
+            <th>Posti</th>
+        </tr>
+    </thead>
+
+    <tbody id="bodyVoli">
+
+    </tbody>
+</table>
 
 <!--{
 
@@ -287,6 +312,7 @@ function accesso(){
   window.location.href="../html/Reg_Aut.html"
 }
 
+// POST voli
 function inserisci(){
 
     const compagnia = document.getElementById("postCompagnia").value;
@@ -351,6 +377,65 @@ function inserisci(){
 
 }
 
+
+// GET all voli
+function caricaVoli(){
+
+    fetch("http://localhost:8080/voli",{
+
+        method:"GET",
+
+        headers:{
+            "Authorization":"Bearer " + localStorage.getItem("token")
+        }
+
+    })
+
+    .then(res=>{
+
+        if(!res.ok){
+            throw new Error("Errore nel caricamento dei voli");
+        }
+
+        return res.json();
+
+    })
+
+    .then(voli=>{
+
+        const body = document.getElementById("bodyVoli");
+
+        body.innerHTML = "";
+
+        voli.forEach(volo => {
+
+            const riga = document.createElement("tr");
+
+            riga.innerHTML = `
+                <td>${volo.codice}</td>
+                <td>${volo.compagnia}</td>
+                <td>${volo.aeroportoPartenza}</td>
+                <td>${volo.aeroportoDestinazione}</td>
+                <td>${volo.data}</td>
+                <td>${volo.orarioDecollo}</td>
+                <td>${volo.orarioAtterraggio}</td>
+                <td>${volo.postiDisponibili}</td>
+            `;
+
+            body.appendChild(riga);
+
+        });
+
+    })
+
+    .catch(err=>{
+
+        console.error(err);
+        alert("Impossibile caricare i voli");
+
+    });
+
+}
 </script>
     
 </body>
