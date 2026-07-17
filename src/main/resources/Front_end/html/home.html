@@ -10,7 +10,7 @@
 <body>
 
     <header>
-        <div id="icona-login-esterna"></div>
+        <div id="icona-login-esterna" onclick="accesso()"></div>
         <h1 id="h1Header">FlyEasy</h1>
         <h3 id="h3Header">Il tuo gestore voli</h3>
 
@@ -46,11 +46,10 @@
     </footer>
 
   
-<div id="sfondoPopup" class="schermata-scura">
 
-  <div class="finestra-popup">
+  <div class="finestra-popup" id="finestra-popup">
     
-    <span class="pulsante-chiudi" id="pulsanteChiudiPopup">&times;</span>
+    <span class="pulsante-chiudi" id="pulsanteChiudiPopup" onclick="chiudiFinestra()">&times;</span>
     
     <h2>Benvenuto su FlyEasy!</h2>
     <p>Per usufruire di tutti i nostri servizi di volo, effettua il login o registrati in pochi passaggi, facendo click sull'icona in'alto a destra.</p>
