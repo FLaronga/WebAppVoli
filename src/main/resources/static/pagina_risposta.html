@@ -221,6 +221,7 @@ footer{
 
     <input type="button" value="Inserisci" onclick="inserisci()"> <br>
 
+    <!--GET ALL VOLI (ADMIN)-->
   <h1>Elenco Voli</h1>
 
 <input type="button" value="Carica voli" onclick="caricaVoli()">
@@ -245,6 +246,35 @@ footer{
 
     </tbody>
 </table>
+
+<!--PUT VOLI (ADMIN)-->
+<h1>Modifica Volo</h1>
+
+<label>Codice del volo:</label>
+<input type="number" id="putCodice"><br>
+
+<label>Compagnia:</label>
+<input type="text" id="putCompagnia"><br>
+
+<label>Aeroporto di partenza:</label>
+<input type="text" id="putAeroportoPartenza"><br>
+
+<label>Aeroporto di destinazione:</label>
+<input type="text" id="putAeroportoDestinazione"><br>
+
+<label>Data:</label>
+<input type="date" id="putData"><br>
+
+<label>Orario decollo:</label>
+<input type="time" id="putOrarioDecollo"><br>
+
+<label>Orario atterraggio:</label>
+<input type="time" id="putOrarioAtterraggio"><br>
+
+<label>Posti disponibili:</label>
+<input type="number" id="putPostiDisponibili"><br>
+
+<input type="button" value="Aggiorna volo" onclick="aggiornaVolo()">
 
 <!--{
 
@@ -432,6 +462,72 @@ function caricaVoli(){
 
         console.error(err);
         alert("Impossibile caricare i voli");
+
+    });
+
+}
+
+// PUT VOLI (ADMIN)
+function aggiornaVolo(){
+
+    const id = document.getElementById("putCodice").value;
+
+    const compagnia = document.getElementById("putCompagnia").value;
+    const aeroportoPartenza = document.getElementById("putAeroportoPartenza").value;
+    const aeroportoDestinazione = document.getElementById("putAeroportoDestinazione").value;
+    const data = document.getElementById("putData").value;
+    const orarioDecollo = document.getElementById("putOrarioDecollo").value;
+    const orarioAtterraggio = document.getElementById("putOrarioAtterraggio").value;
+    const postiDisponibili = document.getElementById("putPostiDisponibili").value;
+
+    fetch(`http://localhost:8080/voli/${id}`, {
+
+        method: "PUT",
+
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            compagnia: compagnia,
+            aeroportoPartenza: aeroportoPartenza,
+            aeroportoDestinazione: aeroportoDestinazione,
+            data: data,
+            orarioDecollo: orarioDecollo,
+            orarioAtterraggio: orarioAtterraggio,
+            postiDisponibili: Number(postiDisponibili)
+
+        })
+
+    })
+
+    .then(res => {
+
+        if(!res.ok){
+            throw new Error("Errore durante l'aggiornamento");
+        }
+
+        return res.json();
+
+    })
+
+    .then(volo => {
+
+        console.log("Volo aggiornato:", volo);
+
+        alert("Volo aggiornato con successo!");
+
+        caricaVoli();   // aggiorna la tabella
+
+    })
+
+    .catch(err => {
+
+        console.error(err);
+
+        alert("Aggiornamento fallito");
 
     });
 
